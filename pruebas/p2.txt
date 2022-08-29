@@ -1,0 +1,8 @@
+int main(){
+    float id1,id2;
+    int id3;
+    id1 = 123*id1;
+    if(id1 < 12 || id3!= 100){
+        id1 = 100;
+    }
+}

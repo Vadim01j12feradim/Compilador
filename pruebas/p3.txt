@@ -1,0 +1,5 @@
+int main(){
+    int in1,var1;
+    float f#1;
+    f1 = 12.3*f1;
+}

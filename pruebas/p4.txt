@@ -1,0 +1,5 @@
+int main(){
+    int id1,float1;
+    float asd;
+    asd = 10*198.1/(id1*100);
+}
