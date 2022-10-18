@@ -1,5 +1,20 @@
 int main(){
-    int in1,var1;
-    float f#1;
-    f1 = 12.3*f1;
-}
+    string s;
+    int i;
+    s = "hola mundo";
+    prints(s);
+    s = "Izmael Guzman Murguia";
+    i=0;
+    prints(s);
+    while(i<9){
+        printi(i);
+        if(i==5)
+            i=9;
+        else
+            i = i+1;
+    }
+    s = "ya sali del buble";
+    prints(s);
+    printi(i);
+    return 0;
+    }

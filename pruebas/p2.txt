@@ -1,8 +1,11 @@
 int main(){
-    float id1,id2;
-    int id3;
-    id1 = 123*id1;
-    if(id1 < 12 || id3!= 100){
-        id1 = 100;
-    }
+    string s;
+    int i1,i;
+    i1 = 1;
+    i = 3+1*5;
+    if(i==8)
+        i=1;
+    printi(i1);
+    printi(i);
+    return 0;
 }

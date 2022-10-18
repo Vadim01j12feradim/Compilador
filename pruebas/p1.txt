@@ -1,2 +1,13 @@
-int a,b,c,d,e,f,g,h,izmael;
-a = a+b+c;
+int i;
+int suma(int p1, int p2){
+    return p1 + 5;
+}
+
+int main(){
+    int r1,r2, res;
+    r1 = 1;
+    r2 = 2;
+    res = suma(r1,r2);
+    printi(res);
+    return 0;
+    }

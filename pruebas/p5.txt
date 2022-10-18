@@ -1,9 +1,16 @@
-int main(){
-    int id1,float1;
-    float asd;
-    asd = 10*198.1/(asd*100);
-    int var1,var2,var3;
-    if(var2 <= 781){
-        return 89;
-    }
+int i;
+string s;
+int suma(int j,int i){
+    return j+i;
 }
+int main(){
+    int i;
+    string s;
+    i=0;
+    j=9;
+    printi(i);
+    prints(s);
+    s = "hola";
+    i = suma(i,4);
+    return 0;
+    }

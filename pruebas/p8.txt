@@ -1,17 +1,7 @@
 int main(){
-    int id1,id2;
-    float asd;
-    asd = 10*198.1/(asd*100);
-    int var1,var2,var3;
-    if(var2 <= 781){
-        return 89;
-    }else{
-        id2 = (8*9/(id2-id1));
-        while(id2 == 378){
-            id2 = var1+78;
-        }
-        if(id1 != id2 || id1 < 897 && id2 > 987){
-            asd = 12.12;
-        }
-    }
+float a;
+int b;
+int c;
+c = a+b;
+c = suma(8,9);
 }
