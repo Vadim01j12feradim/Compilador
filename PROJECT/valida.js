@@ -10,6 +10,139 @@ String.prototype.replaceAt = function(index, replacement) {
  
     return this.substring(0, index) + replacement + this.substring(index + 1);
 }
+//#region lista y nodos
+class Node {
+    constructor(value,medium, next) {
+      this.medium =medium
+      this.value = value;
+      this.next = next;  
+    }
+  }
+  
+  class LinkedList {
+    constructor() {
+      this.head = null;
+    }
+    
+    insertNode(value,medium) {
+      const newNode = new Node(value,medium, null);
+      if (this.head === null) {
+        this.head = newNode;
+      } else {
+        let current = this.head;
+        while (current.next) {
+          current = current.next;
+        }
+        current.next = newNode;
+      }
+    }
+  
+    print(){
+      let current = this.head;
+      //#region capture dataset
+        let NODES = []
+        let EDGES = [
+            // { from: 1, to: 3 },
+            // { from: 1, to: 2 },
+            // { from: 2, to: 4 },
+            // { from: 2, to: 5 },
+            // { from: 3, to: 3 }
+          ]
+        let i = 0;
+        //let fahterOld=0;
+          while (current) {
+            console.log(current.value+","+current.medium+"->");
+            if (current.medium=="") {
+                if (NODES.length==0) {
+                    NODES.push({ id: i, label: "E" })
+                    NODES.push({ id: i+1, label: current.value})
+                    EDGES.push({ from: i, to: i+1 })
+                }else{
+                NODES.push({ id: i, label: current.value})
+                EDGES.push({ from: i, to: i-1 })
+                }i+=2
+            }else if(NODES.length==0){
+            NODES.push({ id: i, label: "E" })
+            NODES.push({ id: i+1, label: current.value})
+            EDGES.push({ from: i, to: i+1 })
+            NODES.push({ id: i+2, label: current.medium})
+            EDGES.push({ from: i+2, to: i })
+            NODES.push({ id: i+3, label: "E" })
+            EDGES.push({ from: i+3, to: i })
+            i+=4
+            }else if (NODES.length>0 && current.medium!="") {
+                NODES.push({ id: i, label: current.value})
+                EDGES.push({ from: i, to: i-1 })
+                NODES.push({ id: i+1, label: current.medium})
+                EDGES.push({ from: i+1, to: i-1 })
+                NODES.push({ id: i+2, label: "E" })
+                EDGES.push({ from: i+2, to: i-1 })
+                i+=3
+            }
+            current = current.next;
+          }
+      //#endregion
+            // create an array with nodes
+            var nodes = new vis.DataSet(
+                NODES
+            //     [
+            //     { id: 1, label: "Node 1" },
+            //     { id: 2, label: "Node 2" },
+            //     { id: 3, label: "Node 3" },
+            //     { id: 4, label: "Node 4" },
+            //     { id: 5, label: "Node 5" },
+            //   ]
+              );
+        
+              // create an array with edges
+              
+              var edges = new vis.DataSet(EDGES);
+        
+              // create a network
+              var container = document.getElementById("mynetwork");
+              var data = {
+                nodes: nodes,
+                edges: edges,
+              };
+              var options = {};
+              var network = new vis.Network(container, data, options);
+
+    }
+  
+    deleteNode(value) {
+      if (this.head.value === value) {
+        this.head = this.head.next;
+      } else {
+        let current = this.head;
+        while (current.next) {
+          if (current.next.value === value) {
+            current.next = current.next.next;
+            return;
+          }
+          current = current.next;
+        }
+      }
+    }
+  
+    findNode(value) {
+      let current = this.head;
+      while (current) {
+        if (current.value === value) {
+          return current;
+        }
+        current = current.next;
+      }
+      return null;
+    }
+  }
+  
+//   const linkedList = new LinkedList();
+//   linkedList.insertNode(12);
+//   linkedList.insertNode(99);
+//   linkedList.insertNode(37);
+//   linkedList.print();
+//   console.log(linkedList.findNode(37));
+  //#endregion
 const num =  /\d/i;
 const numf =  /\d\.\d/i;
 const operation =  /\*|\//i;
@@ -23,6 +156,7 @@ var table3='';
 var tableLexico = '';
 var tableLR = '';
 var tableSintactico = ''
+var tableSintacticoR = ''
 var matrixLR = []
 function generateLR(){
 
@@ -158,46 +292,101 @@ class Gramatic{
         }
         return alam
     }
+    getInputStringR(array){
+        let alam = ''
+        let i = 0
+        while (i<array.length) {
+            alam += array[i][2]
+            i++
+        }
+        return alam
+    }
+    dropCom(arr){
+        let str = ''
+        let i=0
+        while (i < arr.length) {
+            str += arr[i]
+            i++
+        }
+        return str;
+    }
     executeSum(){
         //console.log("Execute suma")
         let pila = []
+        let PR = []
         let entrada =[]
+        let ER =[]
         let salida = []
         this.correctIndexSum();
         
         let asignements = this.getAsigments();
-
+        let AR= this.getAsigments();
         //console.log(asignements)
         let i = 0;
         let matrixFinally = []
-        let expresion = []
         //console.log(asignements.length)
         //TODO OK
         let matrixStatus = []
         tableSintactico = ''
+        tableSintacticoR = ''
+        let list = new LinkedList()
+        //list.insertNode()
         while (i<asignements.length) {
             tableSintactico+='<table id="lr">'+
             '<tr class="sintact"><th class="sintact">Pila</th><th class="sintact">Entrada</th>'+
             '<th class="sintact">Salida'+'</th></tr>'
             //let j=0
+            tableSintacticoR+='<table id="outrf">'+
+            '<tr class="LRTytle"><th class="LRTytle">Pila</th><th class="LRTytle">Entrada</th>'+
+            '<th class="LRTytle">Salida'+'</th></tr>'
             entrada = asignements[i]
+            
+
+            //entradaR.push(["$","$","$"])
+            
             entrada.push(["2",2,"2"])
+            ER = AR[i]
+            ER.push(["$","$","$"])
+            //console.log("e: " +entrada)
             //console.log(entrada[0])
             //cada asignation
-            expresion = []
+            //let expresion = []
             pila = []
             pila.push(2)
             pila.push(0)
+            PR = []
+            PR.push("$")
+            PR.push("0")
             //console.log(entrada.length)
             matrixStatus = []
+            let tempN = []
             while (true) {
                 let y = pila[pila.length-1]
+                //let yR = pila[pila.length-1]
                 let x = entrada[0][1]
+                let xR = entrada[0][2]
+                tempN.push(xR)
+                
+                if (x==0) {
+                    console.log(tempN.length+"-"+tempN)
+                    if (tempN.length==3) {
+                        console.log("inserto 2")
+                        list.insertNode(tempN[0],tempN[1])
+                        let t3 = tempN[2]
+                        tempN =[]
+                        tempN.push(t3)
+                    }
+                    if (tempN.length==1 && entrada.length==2) {
+                        console.log("inserto 1")
+                        list.insertNode(tempN[0],"")
+                        tempN =[]
+                    }
+                }
                 let coordenada = matrixLR[y][x]
-                console.log("Pila: "+pila)
-                console.log("Entrada: "+entrada)
-                console.log("Salida: "+coordenada)
-                console.log(y,x,coordenada)
+                // console.log("Pila: "+pila)
+                // console.log("Entrada: "+entrada)
+                // console.log("Salida: "+coordenada)
+                // console.log(y,x,coordenada)
                 //matrixStatus.push([[pila],[entrada],[coordenada]])
                 //console.log("Iteracion: "+matrixStatus[matrixStatus.length-1][0])
                 let real = coordenada;
@@ -205,23 +394,31 @@ class Gramatic{
                     real = "r1 = E -> id + E"
                 else if (coordenada == "r2")
                     real = "r2 = E -> id"
-                tableSintactico +='<tr class="rowlr"><th class="rowlr">'+pila+
+                tableSintactico +='<tr class="rowlr"><th class="rowlr">'+this.dropCom(pila)+
                             '</th><th class="rowlr">'+ this.getInputString(entrada) + '</th><th class="rowlr">'+
                             real+'</th></tr>'
+                tableSintacticoR +='<tr class="rowlr"><th class="rowlr">'+this.dropCom(PR)+
+                            '</th><th class="rowlr">'+ this.getInputStringR(ER) + '</th><th class="rowlr">'+
+                            real+'</th></tr>'
+
                 if (coordenada.length > 3) {
-                    console.log("correcto")
+                    //console.log("correcto")
                     salida.push(coordenada)
                     matrixStatus.push([pila,entrada,coordenada])
                     break;
                 }else if (coordenada.length ==2) {
 
                     if (coordenada.charAt(0) == "d") {
+                        PR.push(xR)
+                        PR.push(coordenada)
                         pila.push(x)
                         pila.push(coordenada.charAt(1))
                         
                     }else{
                         if (coordenada == "r2") {
-                            
+                                PR.pop()
+                                PR.pop()
+
                                 pila.pop()
                                 pila.pop()
                                 let cp = pila[pila.length-1]
@@ -229,6 +426,8 @@ class Gramatic{
                                 if (cord.leng == 0) {
                                     alert("error")
                                 }
+                                PR.push("E")
+                                PR.push(cord)
                                 pila.push(3)
                                 pila.push(cord)
                                 continue
@@ -241,11 +440,20 @@ class Gramatic{
                                 pila.pop()
                                 pila.pop()
                                 pila.pop()
+                                
+                                PR.pop()
+                                PR.pop()
+                                PR.pop()
+                                PR.pop()
+                                PR.pop()
+                                PR.pop()
                                 let cp = pila[pila.length-1]
                                 let cord = matrixLR[cp][3];
                                 if (cord.leng == 0) {
                                     alert("error")
                                 }
+                                PR.push("E")
+                                PR.push(cord)
                                 pila.push(3)
                                 pila.push(cord)
                                 continue
@@ -255,6 +463,7 @@ class Gramatic{
                     }
                 //j++;
                 entrada.shift()
+                ER.shift()
                 
             }
             // expresion.push(pila)
@@ -263,7 +472,10 @@ class Gramatic{
             matrixFinally.push(matrixStatus)
             i++
         }
+        console.log("Salida: ")
+        list.print()
         }
+        
        // this.generataCasesSum(matrixFinally); 
         //console.log(matrixFinally[0][0].length)
 
@@ -1451,6 +1663,8 @@ const validar = () =>{
     let gramatic = new Gramatic(init.lexico)
     gramatic.executeSum();
     document.getElementById('outputlr').innerHTML= tableSintactico; //table;
+    document.getElementById('outrf').innerHTML= tableSintacticoR; //table;
+    
     document.getElementById('tree').innerHTML=tableLexico;
     document.getElementById('output').innerHTML= 
         "<img src='ok.png' alt='' class='notify' width='40px'srcset=''>Programa correcto"//"Programa correcto ;)";//' '+valc;

@@ -164,3 +164,24 @@ tr:hover{
     color: #ffffff;
     border-color: #70101000;;
 }
+#outrf{
+    background-color: #000000;
+    color: #ffffff;
+    border-color: #70101000;
+    display: inline-block;
+}
+.LRTytle{
+    border-width: 10px;
+    border-color: #000000;
+    background-color: #247531;
+}
+#mynetwork {
+    display: inline-block;
+    border: 1px solid rgb(33, 255, 26);
+    border-width: 5px;
+    border-radius: 20px;
+  }
+  #mynetwork:hover{
+    transition-duration: 2s;
+    background-color: #19be35;
+  }
